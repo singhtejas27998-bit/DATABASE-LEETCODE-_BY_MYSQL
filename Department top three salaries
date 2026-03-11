@@ -1,0 +1,12 @@
+with new_table as(
+    select
+    d.name as department,
+    e.name as Employee,
+    e.salary as Salary,
+    Dense_Rank() over(partition by d.name order by e.salary desc) as ranking from Employee e
+    Left join Department d
+    on e.departmentID=d.id
+)
+Select Department,Employee,Salary
+from new_table
+Where ranking <=3;
